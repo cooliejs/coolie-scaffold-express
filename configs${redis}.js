@@ -47,6 +47,7 @@ module.exports = {
         }
     }[env],
     redisKey: {
+        storage: pkg.name + ':storage:',
         session: pkg.name + ':session:'
     },
     cookie: {

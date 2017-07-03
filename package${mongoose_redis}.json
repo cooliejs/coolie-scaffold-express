@@ -34,7 +34,8 @@
     "url": "https://github.com/express-template/issues"
   },
   "dependencies": {
-    "blear.classes.redis": "1.x",
+    "blear.classes.cache": "^2.0.1",
+    "blear.classes.redis": "^1.0.5",
     "mongoose": "^4.3.6",
     "blear.express.http-method-override": "^1.0.0",
     "blear.express.res-api": "^1.1.2",
