@@ -189,8 +189,7 @@ crashlytics-build.properties
 .env.*.php
 .env.php
 .env
-### Linux template
-*~
+
 
 # KDE directory preferences
 .directory
