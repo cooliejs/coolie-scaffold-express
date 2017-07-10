@@ -56,7 +56,7 @@ exports.parseFullURL = function () {
 // 解析 IP
 exports.parseIP = function () {
     return function (req, res, next) {
-        if (req.session.$ip) {
+        if (req.session && req.session.$ip) {
             req.$ip = req.session.$ip;
             return next();
         }
@@ -67,7 +67,7 @@ exports.parseIP = function () {
 
         system.remoteIP(req, function (ip) {
             req.$ip = ip;
-            req.session.$ip = ip;
+            req.session && (req.session.$ip = ip);
             next();
         });
     };
