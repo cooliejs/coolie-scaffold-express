@@ -8,6 +8,7 @@
 'use strict';
 
 var path = require('path');
+var pkg = require('./package.json');
 
 var env = getEnv();
 var webroot = env === 'local' ? 'dev' : 'pro';
@@ -17,6 +18,13 @@ var port = 10000;
 module.exports = {
     port: port,
     env: env,
+    pkg: pkg,
+    releaseStage: {
+        local: 'development',
+        dev: 'development',
+        test: 'test',
+        pro: 'production'
+    }[env],
     root: root,
     webroot: path.join(root, './webroot-' + webroot),
     mongodb: {
