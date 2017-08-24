@@ -21,11 +21,34 @@ var startTime = Date.now();
 var NPM_REGISTRY = 'http://registry.npm.taobao.org';
 var ROOT = path.join(__dirname, '..');
 var WEBROOT_DEV = path.join(ROOT, 'webroot-dev');
-var isDebug = process.argv[2] === '--debug';
 var NPM_INSTALL = 'npm install --registry=' + NPM_REGISTRY +
     (configs.env === 'local' ? '' : ' --production');
 var APP_PATH = path.join(ROOT, 'app.js');
+var execArgs = process.argv.slice(2).map(function (val) {
+    var item = val.split('=');
+    return {
+        key: item[0].slice(2).toLowerCase(),
+        val: item[1] || true
+    };
+});
 
+/**
+ * 查找运行参数
+ * @param key
+ * @returns {*}
+ */
+var findExecArg = function (key) {
+    var list = execArgs.filter(function (item, index) {
+        return key.toLowerCase() === item.key;
+    });
+
+    if (!list.length) {
+        return null;
+    }
+
+    return list[0].val;
+};
+var isDebug = findExecArg('debug');
 
 /**
  * 包装器
