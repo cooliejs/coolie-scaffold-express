@@ -14,15 +14,13 @@ var path = require('path');
 var util = require('util');
 var childProcess = require('child_process');
 
-var pkg = require('../package.json');
-var configs = require('../configs.js');
-
+var pkg;
+var configs;
 var startTime = Date.now();
 var NPM_REGISTRY = 'http://registry.npm.taobao.org';
 var ROOT = path.join(__dirname, '..');
 var WEBROOT_DEV = path.join(ROOT, 'webroot-dev');
-var NPM_INSTALL = 'npm install --registry=' + NPM_REGISTRY +
-    (configs.env === 'local' ? '' : ' --production');
+var NPM_INSTALL = 'npm install --registry=' + NPM_REGISTRY;
 var APP_PATH = path.join(ROOT, 'app.js');
 var execArgs = process.argv.slice(2).map(function (val) {
     var item = val.split('=');
@@ -337,53 +335,17 @@ var start = function () {
 };
 
 
-/**
- * 输出 banner
- */
-var banner = function () {
-    var list = [];
-    var padding = 4;
-
-    list.push('start time         │ ' + now());
-    list.push('nodejs version     │ ' + process.versions.node);
-    list.push('nodejs environment │ ' + configs.env);
-    list.push('nodejs project     │ ' + pkg.name + '@' + pkg.version);
-    list.push('project home       │ ' + ROOT);
-
-    var maxLength = 0;
-    list.forEach(function (item) {
-        if (item.length > maxLength) {
-            maxLength = item.length;
-        }
-    });
-
-    maxLength += padding;
-
-    var fixed = function (str, maxLength, padding) {
-        return str + new Array(maxLength - str.length).join(padding);
-    };
-
-    var theadLeft = '┌────────────────────┬';
-    var tfootLeft = '└────────────────────┴';
-    var thead = fixed(theadLeft, maxLength + padding - 2, '─') + '┐';
-    var tfoot = fixed(tfootLeft, maxLength + padding - 2, '─') + '┘';
-
-    logWarning(thead);
-    list.forEach(function (item) {
-        logWarning('│ ' + fixed(item, maxLength, ' ') + '│');
-    });
-    logWarning(tfoot);
-};
-
-
 // ======================================================================
 // ======================================================================
 // ======================================================================
 
-banner();
 
 // 更新代码安装模块并启动
 gitPull(function () {
+    pkg = require('../package.json');
+    configs = require('../configs.js');
+    NPM_INSTALL += (configs.env === 'local' ? '' : ' --production');
+
     installWebserverModules(function () {
         installFrontModules(function () {
             start();
