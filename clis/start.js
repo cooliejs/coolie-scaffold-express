@@ -207,7 +207,7 @@ var gitPull = function (callback) {
     exec([
         'cd ' + ROOT,
         'git branch',
-        'git pull' + (configs.env === 'local' ? '' : ' -f')
+        'git pull'
     ], function () {
         logSuccess('git pull success');
         callback();
