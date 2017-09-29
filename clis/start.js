@@ -17,11 +17,11 @@ var childProcess = require('child_process');
 var pkg;
 var configs;
 var startTime = Date.now();
-var NPM_REGISTRY = 'http://registry.npm.taobao.org';
+var TAOBAO_REGISTRY = 'http://registry.npm.taobao.org';
 var ROOT = path.join(__dirname, '..');
 var WEBROOT_DEV = path.join(ROOT, 'webroot-dev');
-var NPM_INSTALL = 'npm install --registry=' + NPM_REGISTRY;
-var YARN_INSTALL = 'yarn install';
+var NPM_INSTALL = 'npm install --registry=' + TAOBAO_REGISTRY;
+var YARN_INSTALL = 'yarn install --registry=' + TAOBAO_REGISTRY;
 var APP_PATH = path.join(ROOT, 'app.js');
 var execArgs = process.argv.slice(2).map(function (val) {
     var item = val.split('=');
