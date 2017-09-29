@@ -233,7 +233,7 @@ var installNodeModulesUseYarn = function (parent, callback) {
     ], function () {
         removeFile(parent, 'npm-shrinkwrap.json');
         removeFile(parent, 'package-lock.json');
-        logWarning('install node modules use yarn');
+        logNormal('install node modules use yarn');
         exec([
             'cd ' + parent,
             YARN_INSTALL
@@ -251,7 +251,7 @@ var installNodeModulesUseYarn = function (parent, callback) {
  */
 var installNodeModulesUseNPM = function (parent, callback) {
     removeFile(parent, 'yarn.lock');
-    logWarning('install node modules use NPM');
+    logNormal('install node modules use NPM');
     exec([
         'cd ' + parent,
         NPM_INSTALL
@@ -284,7 +284,7 @@ var installNodeModules = function (type, callback) {
 var removeFile = function (parent, filename) {
     var file = path.join(parent, filename);
     try {
-        logWarning('rm', file);
+        logNormal('rm', file);
         fs.unlinkSync(file);
     } catch (err) {
         // ignore
