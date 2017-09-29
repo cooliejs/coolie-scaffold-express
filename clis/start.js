@@ -21,6 +21,7 @@ var NPM_REGISTRY = 'http://registry.npm.taobao.org';
 var ROOT = path.join(__dirname, '..');
 var WEBROOT_DEV = path.join(ROOT, 'webroot-dev');
 var NPM_INSTALL = 'npm install --registry=' + NPM_REGISTRY;
+var YARN_INSTALL = 'yarn install';
 var APP_PATH = path.join(ROOT, 'app.js');
 var execArgs = process.argv.slice(2).map(function (val) {
     var item = val.split('=');
@@ -100,10 +101,10 @@ var logNormal = function () {
 /**
  * 执行系统命令
  * @param cmds {Array|String} 命令数组
- * @param callback {Function} 执行完毕回调
+ * @param onSuccess {Function} 执行成功回调
+ * @param [onError] {Function} 执行失败回调
  */
-var exec = function (cmds, callback) {
-    cmds = typeof(cmds) === 'string' ? [cmds] : cmds;
+var exec = function (cmds, onSuccess, onError) {
     var command = cmds.join(' && ');
 
     logNormal(command);
@@ -128,11 +129,17 @@ var exec = function (cmds, callback) {
         } catch (err) {
             // ignore
         }
+
         process.stdout.write('\n');
 
         if (err) {
-            logDanger(err.message);
-            return process.exit(1);
+            if (onError) {
+                return onError(err);
+            } else {
+                logDanger(err.message);
+                logDanger('[exit 1]');
+                return process.exit(1);
+            }
         }
 
         if (stderr) {
@@ -140,7 +147,7 @@ var exec = function (cmds, callback) {
         }
 
         logSuccess(stdout);
-        callback(null, stdout.trim());
+        onSuccess(stdout.trim());
     });
 };
 
@@ -216,15 +223,72 @@ var gitPull = function (callback) {
 
 
 /**
- * 安装 Node 模块
+ * 使用 yarn 安装 node 模块
  * @param parent
  * @param callback
  */
-var installNodeModules = function (parent, callback) {
+var installNodeModulesUseYarn = function (parent, callback) {
+    exec([
+        'yarn --version'
+    ], function () {
+        removeFile(parent, 'npm-shrinkwrap.json');
+        removeFile(parent, 'package-lock.json');
+        logWarning('install node modules use yarn');
+        exec([
+            'cd ' + parent,
+            YARN_INSTALL
+        ], function () {
+            callback(null);
+        });
+    }, callback);
+};
+
+
+/**
+ * 使用 NPM 安装 node 模块
+ * @param parent
+ * @param callback
+ */
+var installNodeModulesUseNPM = function (parent, callback) {
+    removeFile(parent, 'yarn.lock');
+    logWarning('install node modules use NPM');
     exec([
         'cd ' + parent,
         NPM_INSTALL
     ], callback);
+};
+
+
+/**
+ * 安装 Node 模块
+ * @param type
+ * @param callback
+ */
+var installNodeModules = function (type, callback) {
+    var parent = [ROOT, WEBROOT_DEV][type];
+    installNodeModulesUseYarn(parent, function (err) {
+        if (err) {
+            installNodeModulesUseNPM(parent, callback);
+        } else {
+            callback();
+        }
+    });
+};
+
+
+/**
+ * 移除某个文件
+ * @param parent
+ * @param filename
+ */
+var removeFile = function (parent, filename) {
+    var file = path.join(parent, filename);
+    try {
+        logWarning('rm', file);
+        fs.unlinkSync(file);
+    } catch (err) {
+        // ignore
+    }
 };
 
 
@@ -235,7 +299,7 @@ var installNodeModules = function (parent, callback) {
 var installWebserverModules = function (callback) {
     logNormal('\n\n───────────[ 2/4 ]───────────');
 
-    installNodeModules(ROOT, function () {
+    installNodeModules(0, function () {
         logSuccess('install webserver modules success');
         callback();
     });
@@ -255,7 +319,7 @@ var installFrontModules = function (callback) {
         return callback();
     }
 
-    installNodeModules(WEBROOT_DEV, function () {
+    installNodeModules(1, function () {
         logSuccess('install front modules success');
         callback();
     });
@@ -344,7 +408,8 @@ var start = function () {
 gitPull(function () {
     pkg = require('../package.json');
     configs = require('../configs.js');
-    NPM_INSTALL += (configs.env === 'local' ? '' : ' --production');
+    NPM_INSTALL += configs.env === 'local' ? '' : ' --production';
+    YARN_INSTALL += configs.env === 'local' ? '' : ' --production';
 
     installWebserverModules(function () {
         installFrontModules(function () {
