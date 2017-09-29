@@ -14,15 +14,15 @@ var path = require('path');
 var util = require('util');
 var childProcess = require('child_process');
 
-var pkg;
-var configs;
-var startTime = Date.now();
-var TAOBAO_REGISTRY = 'http://registry.npm.taobao.org';
+var START_TIME = Date.now();
+var NPM_REGISTRY = 'http://registry.npm.taobao.org';
 var ROOT = path.join(__dirname, '..');
 var WEBROOT_DEV = path.join(ROOT, 'webroot-dev');
-var NPM_INSTALL = 'npm install --registry=' + TAOBAO_REGISTRY;
-var YARN_INSTALL = 'yarn install --registry=' + TAOBAO_REGISTRY;
+var NPM_INSTALL = 'npm install --registry=' + NPM_REGISTRY;
+var YARN_INSTALL = 'yarn install --registry=' + NPM_REGISTRY;
 var APP_PATH = path.join(ROOT, 'app.js');
+var PKG;
+var CONFIGS;
 var execArgs = process.argv.slice(2).map(function (val) {
     var item = val.split('=');
     return {
@@ -30,6 +30,7 @@ var execArgs = process.argv.slice(2).map(function (val) {
         val: item[1] || true
     };
 });
+
 
 /**
  * 查找运行参数
@@ -49,15 +50,19 @@ var findExecArg = function (key) {
 };
 var isDebug = findExecArg('debug');
 
+
 /**
  * 包装器
  * @param color
  * @param args
+ * @param thisLine
  */
-var wrapper = function (color, args) {
+var wrapper = function (color, args, thisLine) {
     var str = util.format.apply(util, args);
+    var newLine = thisLine ? '' : '\n';
 
-    str = util.format('\x1b[' + util.inspect.colors[color][0] + 'm%s\x1b[' + util.inspect.colors[color][1] + 'm\n', str);
+    str = util.format('\x1b[' + util.inspect.colors[color][0] +
+        'm%s\x1b[' + util.inspect.colors[color][1] + 'm' + newLine, str);
     process.stdout.write(str);
 };
 
@@ -99,84 +104,85 @@ var logNormal = function () {
 
 
 /**
- * 执行系统命令
- * @param cmds {Array|String} 命令数组
+ * loading
+ * @type {{start, end}}
+ */
+var loading = (function () {
+    var point = 0;
+    var interval;
+    var loadingList = ['-', '\\', '|', '/'];
+
+    return {
+        start: function () {
+            process.stdout.write(loadingList[0]);
+            interval = setInterval(function () {
+                point++;
+                point = point % loadingList.length;
+                try {
+                    process.stdout.cursorTo(0);
+                } catch (err) {
+                    // ignore
+                }
+                process.stdout.write(loadingList[point]);
+            }, 90);
+        },
+        end: function () {
+            clearInterval(interval);
+            point = 0;
+
+            try {
+                process.stdout.clearLine();
+                process.stdout.cursorTo(0);
+            } catch (err) {
+                // ignore
+            }
+        }
+    };
+}());
+
+/**
+ * 执行命令
+ * @param cmdList {Array} 命令数组
  * @param onSuccess {Function} 执行成功回调
  * @param [onError] {Function} 执行失败回调
  */
-var exec = function (cmds, onSuccess, onError) {
-    var command = cmds.join(' && ');
+var exec = function (cmdList, onSuccess, onError) {
+    var cmdStr = cmdList.join(' && ');
+    var cp = childProcess.exec(cmdStr, {
+        cwd: ROOT
+    });
 
-    logNormal(command);
+    logNormal('[exec]', cmdStr);
+    loading.start();
 
-    var point = 1;
-    process.stdout.write('.');
-    var interval = setInterval(function () {
-        try {
-            process.stdout.cursorTo(point);
-        } catch (err) {
-            // ignore
-        }
-        process.stdout.write('.');
-        point++;
-    }, 1000);
+    cp.stdout.on('data', function (chunk) {
+        loading.end();
+        wrapper('green', [chunk.toString()], true);
+        loading.start();
+    });
 
-    childProcess.exec(command, function (err, stdout, stderr) {
-        clearInterval(interval);
+    cp.stderr.on('data', function (chunk) {
+        loading.end();
+        wrapper('yellow', [chunk.toString()], true);
+        loading.start();
+    });
 
-        try {
-            process.stdout.clearLine();
-        } catch (err) {
-            // ignore
-        }
+    cp.on('close', function (code) {
+        loading.end();
 
-        process.stdout.write('\n');
-
-        if (err) {
+        if (code !== 0) {
             if (onError) {
-                return onError(err);
+                return onError(new Error(code));
             } else {
-                logDanger(err.message);
-                logDanger('[exit 1]');
-                return process.exit(1);
+                logDanger('[exit ' + code + ']');
+                return process.exit(-1);
             }
         }
 
-        if (stderr) {
-            logWarning(stderr);
-        }
-
-        logSuccess(stdout);
-        onSuccess(stdout.trim());
+        onSuccess();
     });
-};
 
-
-/**
- * 输出当前时间字符串
- * @returns {string}
- */
-var now = function () {
-    var d = new Date();
-    var fix = function (n) {
-        return (n < 10 ? '0' : '') + n;
-    };
-
-    return ''.concat(
-        fix(d.getFullYear()),
-        '-',
-        fix(d.getMonth() + 1),
-        '-',
-        fix(d.getDate()),
-        ' ',
-        fix(d.getHours()),
-        ':',
-        fix(d.getMinutes()),
-        ':',
-        fix(d.getSeconds()),
-        '.',
-        fix(d.getMilliseconds())
-    );
+    return cp;
 };
 
 
@@ -240,7 +246,9 @@ var installNodeModulesUseYarn = function (parent, callback) {
         ], function () {
             callback(null);
         });
-    }, callback);
+    }, function (err) {
+        callback(err);
+    });
 };
 
 
@@ -254,8 +262,11 @@ var installNodeModulesUseNPM = function (parent, callback) {
     logNormal('install node modules use NPM');
     exec([
         'cd ' + parent,
-        NPM_INSTALL
-    ], callback);
+        NPM_INSTALL,
+        'npm shrink'
+    ], function () {
+        callback();
+    });
 };
 
 
@@ -266,6 +277,7 @@ var installNodeModulesUseNPM = function (parent, callback) {
  */
 var installNodeModules = function (type, callback) {
     var parent = [ROOT, WEBROOT_DEV][type];
+
     installNodeModulesUseYarn(parent, function (err) {
         if (err) {
             installNodeModulesUseNPM(parent, callback);
@@ -314,7 +326,7 @@ var installWebserverModules = function (callback) {
 var installFrontModules = function (callback) {
     logNormal('\n\n───────────[ 3/4 ]───────────');
 
-    if (configs.env !== 'local') {
+    if (CONFIGS.env !== 'local') {
         logNormal('ignore front modules');
         return callback();
     }
@@ -376,7 +388,7 @@ var start = function () {
 
     var done = function () {
         logNormal('');
-        logSuccess('past ' + (Date.now() - startTime) + 'ms');
+        logSuccess('Done in ' + (Date.now() - START_TIME) / 1000 + 's');
         logNormal('');
     };
 
@@ -385,7 +397,7 @@ var start = function () {
             logSuccess('debug start success');
             done();
         });
-    } else if (configs.env === 'local') {
+    } else if (CONFIGS.env === 'local') {
         startLocal(function () {
             logSuccess('listen changing success');
             done();
@@ -406,10 +418,10 @@ var start = function () {
 
 // 更新代码安装模块并启动
 gitPull(function () {
-    pkg = require('../package.json');
-    configs = require('../configs.js');
-    NPM_INSTALL += configs.env === 'local' ? '' : ' --production';
-    YARN_INSTALL += configs.env === 'local' ? '' : ' --production';
+    PKG = require('../package.json');
+    CONFIGS = require('../configs.js');
+    NPM_INSTALL += CONFIGS.env === 'local' ? '' : ' --production';
+    YARN_INSTALL += CONFIGS.env === 'local' ? '' : ' --production';
 
     installWebserverModules(function () {
         installFrontModules(function () {
