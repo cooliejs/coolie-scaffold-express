@@ -240,6 +240,7 @@ var installNodeModulesUseYarn = function (parent, callback) {
         removeFile(parent, 'npm-shrinkwrap.json');
         removeFile(parent, 'package-lock.json');
         logNormal('install node modules use yarn');
+
         exec([
             'cd ' + parent,
             YARN_INSTALL
@@ -260,11 +261,16 @@ var installNodeModulesUseYarn = function (parent, callback) {
 var installNodeModulesUseNPM = function (parent, callback) {
     removeFile(parent, 'yarn.lock');
     logNormal('install node modules use NPM');
-    exec([
+    var cmds = [
         'cd ' + parent,
-        NPM_INSTALL,
-        'npm shrink'
-    ], function () {
+        NPM_INSTALL
+    ];
+
+    if (CONFIGS.env === 'local') {
+        cmds.push('npm shrink');
+    }
+
+    exec(cmds, function () {
         callback();
     });
 };
@@ -421,7 +427,7 @@ gitPull(function () {
     PKG = require('../package.json');
     CONFIGS = require('../configs.js');
     NPM_INSTALL += CONFIGS.env === 'local' ? '' : ' --production';
-    YARN_INSTALL += CONFIGS.env === 'local' ? '' : ' --production';
+    YARN_INSTALL += CONFIGS.env === 'local' ? '' : ' --production --pure-lockfile';
 
     installWebserverModules(function () {
         installFrontModules(function () {
@@ -429,5 +435,6 @@ gitPull(function () {
         });
     });
 });
+
 
 
