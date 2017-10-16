@@ -102,7 +102,7 @@ exports.parseApplicationXwwwFormUrlencoded = function () {
 
 
 // 解析 multipart/form-data text
-exports.parseMultipartFormData = upload.array();
+exports.parseMultipartFormData = upload.none();
 
 
 // 附加 req.redis res.redis
