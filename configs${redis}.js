@@ -19,12 +19,6 @@ module.exports = {
     port: port,
     env: env,
     pkg: pkg,
-    releaseStage: {
-        local: 'development',
-        dev: 'development',
-        test: 'test',
-        pro: 'production'
-    }[env],
     root: root,
     webroot: path.join(root, './webroot-' + webroot),
     redis: {
@@ -69,7 +63,17 @@ module.exports = {
         test: ['log', 'info', 'warn', 'error'],
         pro: ['warn', 'error']
     }[env],
-    api: 'http://api.com'
+    api: 'http://api.com',
+    fundebug: {
+        apiUrl: 'https://og6593g2z.qnssl.com/fundebug.0.3.3.min.js',
+        apiKey: 'API_KEY',
+        releaseStage: {
+            local: 'development',
+            dev: 'development',
+            test: 'test',
+            pro: 'production'
+        }[env]
+    }
 };
 
 
