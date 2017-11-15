@@ -36,16 +36,18 @@ exports.$ua = function () {
         var ua = req.headers['user-agent'];
         var isMobile = /mobile|iphone|ipad|ipod|andorid/i.test(ua);
         var isWeixin = /MicroMessenger\b/i.test(ua);
-        var isDangkr = /dangkr\b/.test(ua);
         var isIOS = /iphone|ipod|ipad/i.test(ua);
         var isAOS = /android/i.test(ua);
+        var isMac = /mac/i.test(ua);
+        var isWin = /windows/i.test(ua);
 
         res.locals.$ua = {
             isMobile: isMobile,
             isWeixin: isWeixin,
-            isDangkr: isDangkr,
             isIOS: isIOS,
-            isAOS: isAOS
+            isAOS: isAOS,
+            isMac: isMac,
+            isWin: isWin
         };
         next();
     };
