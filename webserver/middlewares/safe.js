@@ -10,18 +10,6 @@
 var configs = require('../../configs');
 
 
-// 头信息安全检查
-exports.requestHeadersSafe = function () {
-    return function (req, res, next) {
-        if (!req.headers['accept-encoding'] || !req.headers.host) {
-            return next(new Error('非法访问'));
-        }
-
-        next();
-    };
-};
-
-
 
 // 头信息添加 ua-compatible
 exports.addUACompatibleHeader = function () {
