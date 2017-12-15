@@ -29,8 +29,8 @@ module.exports = {
     }[env],
     cookie: {
         secret: 'express-template',
-        // 30d
-        expires: 30 * 24 * 60 * 60 * 1000,
+        // 1d
+        maxAge: 24 * 60 * 60 * 1000,
         sessionName: 's' + port
     },
     logLevel: {
