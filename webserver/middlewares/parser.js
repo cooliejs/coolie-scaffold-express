@@ -12,7 +12,6 @@ var cookieParser = require('cookie-parser');
 var sessionParser = require('express-session');
 var multer = require('multer');
 var os = require('os');
-var object = require('blear.utils.object');
 var system = require('blear.node.system');
 var console = require('blear.node.console');
 
@@ -102,7 +101,15 @@ exports.parseApplicationXwwwFormUrlencoded = function () {
 
 
 // 解析 multipart/form-data text
-exports.parseMultipartFormData = upload.none();
+exports.parseMultipartFormDataOfText = function () {
+    return upload.none();
+};
+
+
+// 解析 multipart/form-data file
+exports.parseMultipartFormDataOfFile = function (fileName) {
+    return upload.single(fileName || 'file');
+};
 
 
 // 附加 req.redis res.redis
