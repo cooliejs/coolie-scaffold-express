@@ -71,7 +71,7 @@ module.exports = {
     }[env],
     api: 'http://api.com',
     fundebug: {
-        apiUrl: 'https://og6593g2z.qnssl.com/fundebug.0.3.3.min.js',
+        apiUrl: 'https://js.fundebug.cn/fundebug.0.3.3.min.js',
         apiKey: 'API_KEY',
         releaseStage: {
             local: 'development',
