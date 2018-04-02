@@ -35,7 +35,7 @@ module.exports = {
     }[env],
     api: 'http://api.com',
     fundebug: {
-        apiUrl: 'https://js.fundebug.cn/fundebug.0.3.4.min.js',
+        apiUrl: 'https://js.fundebug.cn/fundebug.0.3.6.min.js',
         apiKey: 'API_KEY',
         releaseStage: {
             local: 'development',
