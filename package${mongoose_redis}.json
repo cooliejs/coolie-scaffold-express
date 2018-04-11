@@ -36,7 +36,7 @@
   "dependencies": {
     "blear.classes.cache": "^2.1.0",
     "blear.classes.redis": "^1.0.5",
-    "mongoose": "^4.3.6",
+    "mongoose": "^5.0.14",
     "blear.express.http-method-override": "^1.0.0",
     "blear.express.res-api": "^1.1.2",
     "blear.node.console": "^1.0.7",
