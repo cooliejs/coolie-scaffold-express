@@ -9,7 +9,7 @@
 
 var express = require('express');
 var path = require('blear.node.path');
-var Template = require('blear.node.template');
+var template = require('blear.node.template');
 
 var configs = require('../../configs.js');
 
@@ -20,8 +20,8 @@ module.exports = function (next) {
     app.set('env', configs.env);
     app.set('port', configs.port);
     app.set('views', path.join(configs.webroot, './.views/'));
-    app.engine('html', Template.express({
-        compress: true
+    app.engine('html', template.express({
+        debug: configs.env !== 'pro'
     }));
     app.set('view engine', 'html');
 
