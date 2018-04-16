@@ -46,11 +46,11 @@ module.exports = function (next, app) {
     app.use(midLocals.$url());
     app.use(midLocals.$ua());
 
-    // 页面
-    app.use('/', require('../controllers/main'));
-
     // 接口
     app.use('/api/example/', require('../controllers/api/example'));
+
+    // 页面
+    app.use('/', require('../controllers/main'));
 
     // 后置中间件
     app.use(log.expressMiddleware());
