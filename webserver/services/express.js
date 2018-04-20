@@ -21,7 +21,7 @@ module.exports = function (next) {
     app.set('port', configs.port);
     app.set('views', path.join(configs.webroot, './.views/'));
     app.engine('html', template.express({
-        debug: configs.env !== 'pro'
+        cache: configs.env !== 'local'
     }));
     app.set('view engine', 'html');
 
