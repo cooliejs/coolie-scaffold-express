@@ -38,7 +38,7 @@ module.exports = function (callback) {
                 ['app url', 'http://' + system.localIP() + ':' + app.get('port')],
                 ['app root', configs.root],
                 ['node version', process.versions.node],
-                ['node env', configs.env],
+                ['node env', process.env.NODE_ENV],
                 ['express version', require('express/package.json').version]
             ];
 
