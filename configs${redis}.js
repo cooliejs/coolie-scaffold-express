@@ -11,6 +11,7 @@ var path = require('path');
 var pkg = require('./package.json');
 
 var env = getEnv();
+var environment = getEnvironment();
 var webroot = env === 'local' ? 'dev' : 'pro';
 var root = __dirname;
 var port = 10000;
@@ -18,6 +19,7 @@ var port = 10000;
 module.exports = {
     port: port,
     env: env,
+    environment: environment,
     pkg: pkg,
     root: root,
     webroot: path.join(root, './webroot-' + webroot),
@@ -67,15 +69,13 @@ module.exports = {
     fundebug: {
         apiUrl: 'https://js.fundebug.cn/fundebug.0.3.6.min.js',
         apiKey: 'API_KEY',
-        releaseStage: {
-            local: 'development',
-            dev: 'development',
-            test: 'test',
-            pro: 'production'
-        }[env]
+        releaseStage: environment
     }
 };
 
+
+
+// ====================================================
 
 /**
  * 获取当前环境变量
@@ -86,14 +86,13 @@ function getEnv() {
     var DEVELOPMENT_ENV = 'dev';
     var PRODUCTION_ENV = 'pro';
     var TEST_ENV = 'test';
-    //noinspection JSUnresolvedVariable
     var env = process.env.NODE_ENV || process.env.ENVIRONMENT || LOCAL_ENV;
 
-    if (env.indexOf(DEVELOPMENT_ENV) > -1) {
+    if (/dev/.test(env)) {
         env = DEVELOPMENT_ENV;
-    } else if (env.indexOf(PRODUCTION_ENV) > -1) {
+    } else if (/pro/.test(env)) {
         env = PRODUCTION_ENV;
-    } else if (env.indexOf(TEST_ENV) > -1) {
+    } else if (/test/.test(env)) {
         env = TEST_ENV;
     } else {
         env = LOCAL_ENV;
@@ -102,3 +101,18 @@ function getEnv() {
     return env;
 }
 
+
+/**
+ * 获取当前 NODE 环境
+ * @returns {*}
+ */
+function getEnvironment() {
+    var environment = {
+        local: 'local',
+        dev: 'development',
+        test: 'test',
+        pro: 'production'
+    }[env];
+    process.env.NODE_ENV = environment;
+    return environment;
+}
