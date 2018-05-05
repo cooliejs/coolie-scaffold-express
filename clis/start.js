@@ -380,7 +380,7 @@ var startPM2 = function (callback) {
     var pm2 = require('../pm2.json');
 
     exec([
-        'pm2 start pm2.json',
+        'pm2 reload pm2.json',
         'pm2 show ' + pm2.name
     ], callback);
 };
