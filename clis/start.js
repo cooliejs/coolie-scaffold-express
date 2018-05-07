@@ -148,8 +148,9 @@ var loading = (function () {
  */
 var exec = function (cmdList, onSuccess, onError) {
     var cmdStr = cmdList.join(' && ');
-    var cp = childProcess.exec(cmdStr, {
-        cwd: ROOT
+    var cp = childProcess.spawn(cmdStr, {
+        cwd: ROOT,
+        shell: true
     });
 
     logNormal('[exec]', cmdStr);
