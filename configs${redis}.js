@@ -65,12 +65,7 @@ module.exports = {
         test: ['log', 'info', 'warn', 'error'],
         pro: ['warn', 'error']
     }[env],
-    api: 'http://api.com',
-    fundebug: {
-        apiUrl: 'https://js.fundebug.cn/fundebug.0.3.6.min.js',
-        apiKey: 'API_KEY',
-        releaseStage: environment
-    }
+    api: 'http://api.com'
 };
 
 
