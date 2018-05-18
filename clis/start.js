@@ -267,7 +267,7 @@ var installNodeModulesUseNPM = function (parent, callback) {
         NPM_INSTALL
     ];
 
-    if (CONFIGS.env === 'local') {
+    if (CONFIGS.env === 'development') {
         cmds.push('npm shrink');
     }
 
@@ -333,7 +333,7 @@ var installWebserverModules = function (callback) {
 var installFrontModules = function (callback) {
     logNormal('\n\n───────────[ 3/4 ]───────────');
 
-    if (CONFIGS.env !== 'local') {
+    if (CONFIGS.env !== 'development') {
         logNormal('ignore front modules');
         return callback();
     }
@@ -404,7 +404,7 @@ var start = function () {
             logSuccess('debug start success');
             done();
         });
-    } else if (CONFIGS.env === 'local') {
+    } else if (CONFIGS.env === 'development') {
         startLocal(function () {
             logSuccess('listen changing success');
             done();
@@ -427,8 +427,8 @@ var start = function () {
 gitPull(function () {
     PKG = require('../package.json');
     CONFIGS = require('../configs.js');
-    NPM_INSTALL += CONFIGS.env === 'local' ? '' : ' --production';
-    YARN_INSTALL += CONFIGS.env === 'local' ? '' : ' --production --pure-lockfile';
+    NPM_INSTALL += CONFIGS.env === 'development' ? '' : ' --production';
+    YARN_INSTALL += CONFIGS.env === 'development' ? '' : ' --production --pure-lockfile';
 
     installWebserverModules(function () {
         installFrontModules(function () {
