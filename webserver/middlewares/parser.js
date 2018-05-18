@@ -60,7 +60,7 @@ exports.parseIP = function () {
             return next();
         }
 
-        if (!req.headers['x-forwarded-for'] && configs.env === 'local') {
+        if (!req.headers['x-forwarded-for'] && configs.env === 'development') {
             req.headers['x-forwarded-for'] = '127.0.0.1';
         }
 

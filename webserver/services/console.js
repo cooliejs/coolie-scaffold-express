@@ -14,7 +14,7 @@ var configs = require('../../configs.js');
 module.exports = function (next) {
     // 控制台设置
     console.config({
-        colorful: 'local' === configs.env,
+        colorful: 'development' === configs.env,
         level: configs.logLevel
     });
 

@@ -13,14 +13,14 @@ var object = require('blear.utils.object');
 
 var configs = require('../../configs.js');
 var staticOptions = {
-    etag: configs.env !== 'local',
+    etag: configs.env !== 'development',
     extensions: ['html'],
     index: false,
     maxAge: '30d',
     redirect: true,
     lastModified: false,
     setHeaders: function (res, _path, stat) {
-        if (configs.env !== 'local') {
+        if (configs.env !== 'development') {
             return;
         }
 

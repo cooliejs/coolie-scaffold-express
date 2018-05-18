@@ -23,10 +23,17 @@ module.exports = {
     webroot: path.join(root, './webroot-' + webroot),
     mongodb: {
         development: 'mongodb://localhost:27017/express-template',
+        test: 'mongodb://localhost:27017/express-template',
         production: 'mongodb://localhost:27017/express-template'
     }[env],
     redis: {
         development: {
+            url: 'redis://127.0.0.1:6379',
+            db: 0,
+            pass: 'REDIS_PASSWORD',
+            prefix: pkg.name + ':'
+        },
+        test: {
             url: 'redis://127.0.0.1:6379',
             db: 0,
             pass: 'REDIS_PASSWORD',
@@ -51,6 +58,7 @@ module.exports = {
     },
     logLevel: {
         development: ['log', 'info', 'warn', 'error'],
+        test: ['log', 'info', 'warn', 'error'],
         production: ['warn', 'error']
     }[env],
     api: 'http://api.com'
@@ -66,10 +74,13 @@ module.exports = {
  */
 function getEnvironment() {
     var DEVELOPMENT_ENV = 'development';
+    var TEST_ENV = 'test';
     var PRODUCTION_ENV = 'production';
     var env = process.env.NODE_ENV || process.env.ENVIRONMENT || DEVELOPMENT_ENV;
 
-    if (/pro/.test(env)) {
+    if (/test/.test(env)) {
+        env = TEST_ENV;
+    } else if (/pro/.test(env)) {
         env = PRODUCTION_ENV;
     } else {
         env = DEVELOPMENT_ENV;

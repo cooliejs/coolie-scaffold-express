@@ -21,7 +21,7 @@ module.exports = function (next) {
     app.set('port', configs.port);
     app.set('views', path.join(configs.webroot, './.views/'));
     app.engine('html', template.express({
-        cache: configs.env !== 'local'
+        cache: configs.env !== 'development'
     }));
     app.set('view engine', 'html');
 
@@ -32,8 +32,8 @@ module.exports = function (next) {
     app.set('strict routing', false);
 
     app.set('jsonp callback name', 'callback');
-    app.set('json spaces', 'local' === configs.env ? 4 : 0);
-    app.set('view cache', 'local' !== configs.env);
+    app.set('json spaces', 'development' === configs.env ? 4 : 0);
+    app.set('view cache', 'development' !== configs.env);
 
     next(null, app);
 };
