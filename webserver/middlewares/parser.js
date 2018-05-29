@@ -34,6 +34,7 @@ exports.parseCookie = function () {
 exports.parseSession = function (redis) {
     return sessionParser({
         resave: true,
+        rolling: true,
         saveUninitialized: true,
         cookie: configs.cookie,
         secret: configs.cookie.secret,
