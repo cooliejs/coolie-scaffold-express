@@ -15,7 +15,8 @@
 </script>
 
 <!--fundebug-->
-<script src="{{=$configs.fundebug.apiURL}}" coolieignore
-        apikey="{{=$configs.fundebug.apiKey}}"
+<script coolieignore
+        src="{{=$configs.fundebug.url}}"
+        apikey="{{=$configs.fundebug.key}}"
         releasestage="{{$configs.env}}"
         appversion="{{$configs.pkg.version}}"></script>
