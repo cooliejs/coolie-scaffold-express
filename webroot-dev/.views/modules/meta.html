@@ -14,3 +14,8 @@
     var LOCALS = {};
 </script>
 
+<!--fundebug-->
+<script src="{{=$configs.fundebug.apiURL}}" coolieignore
+        apikey="{{=$configs.fundebug.apiKey}}"
+        releasestage="{{$configs.env}}"
+        appversion="{{$configs.pkg.version}}"></script>
