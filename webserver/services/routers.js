@@ -32,11 +32,11 @@ module.exports = function (next, app) {
         rewriteError: false
     }));
     app.use(expressHttpMethodOverride());
-    app.use(midParser.parseCookie());
-    app.use(midParser.parseSession(redis));
     app.use(midParser.parseFullURL());
     app.use(midParser.parseIP());
     app.use(midParser.parseAccess());
+    app.use(midParser.parseCookie());
+    app.use(midParser.parseSession(redis));
     app.use(midParser.parseApplicationJSON());
     app.use(midParser.parseApplicationXwwwFormUrlencoded());
     app.use(midParser.parseRedis(redis));
