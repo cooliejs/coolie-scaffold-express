@@ -17,7 +17,8 @@ var childProcess = require('child_process');
 var START_TIME = Date.now();
 var NPM_REGISTRY = 'http://registry.npm.taobao.org';
 var ROOT = path.join(__dirname, '..');
-var WEBROOT_DEV = path.join(ROOT, 'webroot-dev');
+var WEBSERVER_DIR = path.join(ROOT, 'webserver');
+var WEBROOT_DIR = path.join(ROOT, 'webroot-dev');
 var NPM_INSTALL = 'npm install --registry=' + NPM_REGISTRY;
 var YARN_INSTALL = 'yarn install --registry=' + NPM_REGISTRY;
 var APP_PATH = path.join(ROOT, 'app.js');
@@ -210,7 +211,7 @@ var isDirectory = function (_path) {
  * @returns {*}
  */
 var gitPull = function (callback) {
-    logNormal('\n\n───────────[ 1/4 ]───────────');
+    logNormal('\n\n───────────[ 1/5 ]───────────');
 
     if (!isDirectory(path.join(ROOT, '.git'))) {
         logWarning('fatal: Not a git repository (or any of the parent directories): .git');
@@ -282,7 +283,7 @@ var installNodeModulesUseNPM = function (parent, callback) {
  * @param callback
  */
 var installNodeModules = function (type, callback) {
-    var parent = [ROOT, WEBROOT_DEV][type];
+    var parent = [ROOT, WEBSERVER_DIR, WEBROOT_DIR][type];
 
     installNodeModulesUseYarn(parent, function (err) {
         if (err) {
@@ -311,13 +312,32 @@ var removeFile = function (parent, filename) {
 
 
 /**
+ * 更新开发模块
+ * @param callback
+ */
+var installDevelopmentModules = function (callback) {
+    logNormal('\n\n───────────[ 2/5 ]───────────');
+
+    if (CONFIGS.env !== 'development') {
+        logNormal('ignore development modules');
+        return callback();
+    }
+
+    installNodeModules(0, function () {
+        logSuccess('install development modules success');
+        callback();
+    });
+};
+
+
+/**
  * 更新后端模块
  * @param callback
  */
 var installWebserverModules = function (callback) {
-    logNormal('\n\n───────────[ 2/4 ]───────────');
+    logNormal('\n\n───────────[ 3/5 ]───────────');
 
-    installNodeModules(0, function () {
+    installNodeModules(1, function () {
         logSuccess('install webserver modules success');
         callback();
     });
@@ -329,15 +349,15 @@ var installWebserverModules = function (callback) {
  * @param callback
  * @returns {*}
  */
-var installFrontModules = function (callback) {
-    logNormal('\n\n───────────[ 3/4 ]───────────');
+var installWebrootModules = function (callback) {
+    logNormal('\n\n───────────[ 4/5 ]───────────');
 
     if (CONFIGS.env !== 'development') {
         logNormal('ignore front modules');
         return callback();
     }
 
-    installNodeModules(1, function () {
+    installNodeModules(2, function () {
         logSuccess('install front modules success');
         callback();
     });
@@ -390,7 +410,7 @@ var startPM2 = function (callback) {
  * 启动
  */
 var start = function () {
-    logNormal('\n\n───────────[ 4/4 ]───────────');
+    logNormal('\n\n───────────[ 5/5 ]───────────');
 
     var done = function () {
         logNormal('');
@@ -423,14 +443,16 @@ var start = function () {
 
 
 // 更新代码安装模块并启动
-gitPull(function () {
+gitPull/* step 1 */(function () {
     CONFIGS = require('../webserver/configs.js');
     NPM_INSTALL += CONFIGS.env === 'development' ? '' : ' --production';
     YARN_INSTALL += CONFIGS.env === 'development' ? '' : ' --production --pure-lockfile';
 
-    installWebserverModules(function () {
-        installFrontModules(function () {
-            start();
+    installDevelopmentModules/* step 2 */(function () {
+        installWebserverModules/* step 3 */(function () {
+            installWebrootModules/* step 4 */(function () {
+                start/* step 5 */();
+            });
         });
     });
 });
