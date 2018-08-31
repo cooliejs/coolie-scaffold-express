@@ -8,11 +8,11 @@
 'use strict';
 
 var path = require('path');
-var pkg = require('./package.json');
+var pkg = require('../package.json');
 
 var env = getEnvironment();
-var webroot = env === 'development' ? 'dev' : 'pro';
-var root = __dirname;
+var webrootEnv = env === 'development' ? 'dev' : 'pro';
+var root = path.join(__dirname, '..');
 var port = 3456;
 
 module.exports = {
@@ -20,12 +20,7 @@ module.exports = {
     env: env,
     pkg: pkg,
     root: root,
-    webroot: path.join(root, './webroot-' + webroot),
-    mongodb: {
-        development: 'mongodb://localhost:27017/express-template',
-        test: 'mongodb://localhost:27017/express-template',
-        production: 'mongodb://localhost:27017/express-template'
-    }[env],
+    webroot: path.join(root, './webroot-' + webrootEnv),
     cookie: {
         secret: 'express-template',
         // 1d
@@ -68,4 +63,3 @@ function getEnvironment() {
 
     return (process.env.NODE_ENV = env);
 }
-

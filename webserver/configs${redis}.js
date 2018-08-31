@@ -8,11 +8,11 @@
 'use strict';
 
 var path = require('path');
-var pkg = require('./package.json');
+var pkg = require('../package.json');
 
 var env = getEnvironment();
-var webroot = env === 'development' ? 'dev' : 'pro';
-var root = __dirname;
+var webrootEnv = env === 'development' ? 'dev' : 'pro';
+var root = path.join(__dirname, '..');
 var port = 3456;
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
     env: env,
     pkg: pkg,
     root: root,
-    webroot: path.join(root, './webroot-' + webroot),
+    webroot: path.join(root, './webroot-' + webrootEnv),
     redis: {
         development: {
             url: 'redis://127.0.0.1:6379',
