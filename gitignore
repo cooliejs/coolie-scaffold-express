@@ -258,9 +258,4 @@ bower_components/
 build/
 dist/
 
-### 配置文件
-# for 7niu
-7niu.json
 
-# for alioss
-alioss.json
