@@ -21,7 +21,6 @@ var WEBROOT_DEV = path.join(ROOT, 'webroot-dev');
 var NPM_INSTALL = 'npm install --registry=' + NPM_REGISTRY;
 var YARN_INSTALL = 'yarn install --registry=' + NPM_REGISTRY;
 var APP_PATH = path.join(ROOT, 'app.js');
-var PKG;
 var CONFIGS;
 var execArgs = process.argv.slice(2).map(function (val) {
     var item = val.split('=');
@@ -425,8 +424,7 @@ var start = function () {
 
 // 更新代码安装模块并启动
 gitPull(function () {
-    PKG = require('../package.json');
-    CONFIGS = require('../configs.js');
+    CONFIGS = require('../webserver/configs.js');
     NPM_INSTALL += CONFIGS.env === 'development' ? '' : ' --production';
     YARN_INSTALL += CONFIGS.env === 'development' ? '' : ' --production --pure-lockfile';
 
