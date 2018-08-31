@@ -20,33 +20,31 @@ var serviceRouters = require('./services/routers.js');
 var configs = require('../configs.js');
 var pkg = require('../package.json');
 
-module.exports = function (callback) {
-    plan
-        .task(serviceConsole)
-        .task(serviceLog)
-        .task(serviceExpress)
-        .task(serviceRedis)
-        .task(serviceRouters)
-        .serial(callback)
-        .try(function (app) {
-            var table = [
-                ['start time', date.format('YYYY-MM-DD HH:mm:ss.SSS')],
-                ['app name', pkg.name],
-                ['app version', pkg.version],
-                ['app url', 'http://' + system.localIP() + ':' + app.get('port')],
-                ['app root', configs.root],
-                ['node version', process.versions.node],
-                ['node env', process.env.NODE_ENV],
-                ['express version', require('express/package.json').version]
-            ];
+plan
+    .task(serviceConsole)
+    .task(serviceLog)
+    .task(serviceExpress)
+    .task(serviceRedis)
+    .task(serviceRouters)
+    .serial(callback)
+    .try(function (app) {
+        var table = [
+            ['start time', date.format('YYYY-MM-DD HH:mm:ss.SSS')],
+            ['app name', pkg.name],
+            ['app version', pkg.version],
+            ['app url', 'http://' + system.localIP() + ':' + app.get('port')],
+            ['app root', configs.root],
+            ['node version', process.versions.node],
+            ['node env', process.env.NODE_ENV],
+            ['express version', require('express/package.json').version]
+        ];
 
-            console.table(table, {
-                border: true,
-                colors: ['green', 'bold']
-            });
-        })
-        .catch(function (err) {
-            console.error(err);
-            return process.exit(-1);
+        console.table(table, {
+            border: true,
+            colors: ['green', 'bold']
         });
-};
+    })
+    .catch(function (err) {
+        console.error(err);
+        return process.exit(-1);
+    });

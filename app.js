@@ -8,4 +8,4 @@
 'use strict';
 
 
-require('./webserver/index.js')();
+require('./webserver/index.js');
