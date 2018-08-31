@@ -1,38 +1,5 @@
 {
-  "name": "express-template",
-  "version": "0.0.1",
-  "private": true,
-  "description": "express-template description",
-  "scripts": {
-    "start": "node ./clis/start.js",
-    "release": "coolie build -d webroot-dev && git add webroot-pro && git commit -am release && git push",
-    "live": "browser-sync start --config bs-config.js"
-  },
-  "preferGlobal": false,
-  "bin": {},
-  "engines": {
-    "node": ">= 6.0.0",
-    "iojs": ">= 1.0.0"
-  },
-  "main": "app.js",
-  "keywords": [
-    "cloudcome",
-    "ydr.me"
-  ],
-  "author": {
-    "name": "cloudcome",
-    "email": "cloudcome@163.com",
-    "url": "https://ydr.me"
-  },
-  "contributors": [],
-  "homepage": "https://github.com/express-template",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/express-template"
-  },
-  "bugs": {
-    "url": "https://github.com/express-template/issues"
-  },
+  "name": "webserver",
   "dependencies": {
     "blear.express.http-method-override": "^1.0.0",
     "blear.express.res-api": "^1.1.2",
@@ -55,6 +22,5 @@
   "peerDependencies": {},
   "devDependencies": {
     "supervisor": "^0.12.0"
-  },
-  "license": "MIT"
+  }
 }
