@@ -18,7 +18,7 @@ var serviceExpress = require('./services/express.js');
 var serviceMongoose = require('./services/mongoose.js');
 var serviceRedis = require('./services/redis.js');
 var serviceRouters = require('./services/routers.js');
-var configs = require('../configs.js');
+var configs = require('./configs.js');
 var pkg = require('../package.json');
 
 plan

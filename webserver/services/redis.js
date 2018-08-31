@@ -12,7 +12,7 @@ var Redis = require('blear.classes.redis');
 var console = require('blear.node.console');
 var fun = require('blear.utils.function');
 
-var configs = require('../../configs.js');
+var configs = require('../configs.js');
 
 module.exports = function (next, app) {
     var redis = new Redis(configs.redis);

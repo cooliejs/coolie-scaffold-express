@@ -9,7 +9,7 @@
 
 var console = require('blear.node.console');
 
-var configs = require('../../configs.js');
+var configs = require('../configs.js');
 
 module.exports = function (next) {
     // 控制台设置

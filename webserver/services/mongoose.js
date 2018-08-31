@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
 var fun = require('blear.utils.function');
 var console = require('blear.node.console');
 
-var configs = require('../../configs.js');
+var configs = require('../configs.js');
 
 module.exports = function (next) {
     var complete = fun.once(function (err) {
