@@ -211,7 +211,8 @@ var isDirectory = function (_path) {
  * @returns {*}
  */
 var gitPull = function (callback) {
-    logNormal('\n\n───────────[ 1/5 ]───────────');
+    logSuccess('\n\n───────────[ 1/5 ]───────────');
+    logNormal('update project');
 
     if (!isDirectory(path.join(ROOT, '.git'))) {
         logWarning('fatal: Not a git repository (or any of the parent directories): .git');
@@ -316,7 +317,7 @@ var removeFile = function (parent, filename) {
  * @param callback
  */
 var installDevelopmentModules = function (callback) {
-    logNormal('\n\n───────────[ 2/5 ]───────────');
+    logSuccess('\n\n───────────[ 2/5 ]───────────');
 
     if (CONFIGS.env !== 'development') {
         logNormal('ignore development modules');
@@ -335,7 +336,7 @@ var installDevelopmentModules = function (callback) {
  * @param callback
  */
 var installWebserverModules = function (callback) {
-    logNormal('\n\n───────────[ 3/5 ]───────────');
+    logSuccess('\n\n───────────[ 3/5 ]───────────');
 
     installNodeModules(1, function () {
         logSuccess('install webserver modules success');
@@ -350,7 +351,7 @@ var installWebserverModules = function (callback) {
  * @returns {*}
  */
 var installWebrootModules = function (callback) {
-    logNormal('\n\n───────────[ 4/5 ]───────────');
+    logSuccess('\n\n───────────[ 4/5 ]───────────');
 
     if (CONFIGS.env !== 'development') {
         logNormal('ignore front modules');
@@ -410,7 +411,7 @@ var startPM2 = function (callback) {
  * 启动
  */
 var start = function () {
-    logNormal('\n\n───────────[ 5/5 ]───────────');
+    logSuccess('\n\n───────────[ 5/5 ]───────────');
 
     var done = function () {
         logNormal('');

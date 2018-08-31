@@ -9,7 +9,7 @@
 
 var Router = require('express').Router;
 
-var configs = require('../../configs');
+var configs = require('../configs');
 var pkg = require('../../package.json');
 
 var router = new Router();

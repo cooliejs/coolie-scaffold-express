@@ -7,12 +7,13 @@
 
 'use strict';
 
-var express = require('express');
 var log = require('blear.node.log');
 var expressResAPI = require('blear.express.res-api');
 var expressHttpMethodOverride = require('blear.express.http-method-override');
+var path = require('path');
+var express = require('express');
 
-var configs = require('../../configs');
+var configs = require('../configs');
 var midParser = require('../middlewares/parser');
 var midSafe = require('../middlewares/safe');
 var midError = require('../middlewares/error');

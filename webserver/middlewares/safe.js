@@ -7,7 +7,7 @@
 
 'use strict';
 
-var configs = require('../../configs');
+var configs = require('../configs');
 
 
 

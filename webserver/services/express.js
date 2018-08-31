@@ -11,7 +11,7 @@ var express = require('express');
 var path = require('blear.node.path');
 var template = require('blear.node.template');
 
-var configs = require('../configs.js');
+var configs = require('../configs');
 
 
 module.exports = function (next) {

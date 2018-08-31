@@ -10,7 +10,7 @@
 var path = require('blear.node.path');
 var log = require('blear.node.log');
 
-var configs = require('../configs.js');
+var configs = require('../configs');
 
 module.exports = function (next) {
     log.manage({

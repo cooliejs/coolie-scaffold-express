@@ -18,7 +18,7 @@ var serviceExpress = require('./services/express.js');
 var serviceMongoose = require('./services/mongoose.js');
 var serviceRedis = require('./services/redis.js');
 var serviceRouters = require('./services/routers.js');
-var configs = require('./configs.js');
+var configs = require('./configs');
 var pkg = require('../package.json');
 
 plan
@@ -28,7 +28,7 @@ plan
     .task(serviceMongoose)
     .task(serviceRedis)
     .task(serviceRouters)
-    .serial(callback)
+    .serial()
     .try(function (app) {
         var table = [
             ['start time', date.format('YYYY-MM-DD HH:mm:ss.SSS')],

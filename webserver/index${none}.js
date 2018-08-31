@@ -16,7 +16,7 @@ var serviceConsole = require('./services/console.js');
 var serviceLog = require('./services/log.js');
 var serviceExpress = require('./services/express.js');
 var serviceRouters = require('./services/routers.js');
-var configs = require('./configs.js');
+var configs = require('./configs');
 var pkg = require('../package.json');
 
 plan
@@ -24,7 +24,7 @@ plan
     .task(serviceLog)
     .task(serviceExpress)
     .task(serviceRouters)
-    .serial(callback)
+    .serial()
     .try(function (app) {
         var table = [
             ['start time', date.format('YYYY-MM-DD HH:mm:ss.SSS')],

@@ -16,7 +16,7 @@ var system = require('blear.node.system');
 var console = require('blear.node.console');
 
 
-var configs = require('../configs.js');
+var configs = require('../configs');
 
 
 var upload = multer({
