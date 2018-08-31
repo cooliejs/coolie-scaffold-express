@@ -1,15 +1,15 @@
 {
-  "package.json": {
-    "mongoose": "package${mongoose}.json",
-    "redis": "package${redis}.json",
-    "mongoose_redis": "package${mongoose_redis}.json",
-    "none": "package${none}.json"
+  "webserver/package.json": {
+    "mongoose": "webserver/package${mongoose}.json",
+    "redis": "webserver/package${redis}.json",
+    "mongoose_redis": "webserver/package${mongoose_redis}.json",
+    "none": "webserver/package${none}.json"
   },
-  "configs.js": {
-    "mongoose_redis": "configs${mongoose_redis}.js",
-    "mongoose": "configs${mongoose}.js",
-    "redis": "configs${redis}.js",
-    "none": "configs${none}.js"
+  "webserver/configs.js": {
+    "mongoose_redis": "webserver/configs${mongoose_redis}.js",
+    "mongoose": "webserver/configs${mongoose}.js",
+    "redis": "webserver/configs${redis}.js",
+    "none": "webserver/configs${none}.js"
   },
   "webserver/index.js": {
     "mongoose": "webserver/index${mongoose}.js",
