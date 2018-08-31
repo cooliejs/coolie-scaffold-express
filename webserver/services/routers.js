@@ -26,6 +26,7 @@ module.exports = function (next, app) {
     // 静态文件
     app.use('/', express.static(path.join(configs.root, 'public')));
     app.use('/static', express.static(path.join(configs.webroot, 'static')));
+    app.use('/node_modules', express.static(path.join(configs.webroot, 'node_modules')));
 
     // 前置中间件
     app.use(expressResAPI(app, {
