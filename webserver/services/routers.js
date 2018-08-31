@@ -17,15 +17,14 @@ var midParser = require('../middlewares/parser');
 var midSafe = require('../middlewares/safe');
 var midError = require('../middlewares/error');
 var midLocals = require('../middlewares/locals');
-var ctrlStatical = require('../controllers/statical');
 
 
 module.exports = function (next, app) {
     var redis = app.redis;
 
     // 静态文件
-    app.use('/', ctrlStatical.public());
-    app.use('/', ctrlStatical.webroot());
+    app.use('/', express.static(path.join(configs.root, 'public')));
+    app.use('/static', express.static(path.join(configs.webroot, 'static')));
 
     // 前置中间件
     app.use(expressResAPI(app, {
