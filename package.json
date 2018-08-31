@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./clis/start.js",
     "release": "coolie build -d webroot-dev && git add webroot-pro && git commit -am release && git push",
-    "live": "browser-sync start --config bs-config.js"
+    "live": "browser-sync start --config ./webroot-dev/bs-config.js"
   },
   "preferGlobal": false,
   "bin": {},

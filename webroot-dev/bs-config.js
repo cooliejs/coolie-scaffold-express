@@ -1,6 +1,6 @@
 'use strict';
 
-var configs = require('./configs.js');
+var configs = require('../webserver/configs.js');
 
 // 当前 express 的 url
 var EXPRESS_URL = 'http://localhost:' + configs.port;
