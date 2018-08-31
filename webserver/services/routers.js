@@ -12,6 +12,7 @@ var expressResAPI = require('blear.express.res-api');
 var expressHttpMethodOverride = require('blear.express.http-method-override');
 var path = require('path');
 var express = require('express');
+var favicon = require('serve-favicon');
 
 var configs = require('../configs');
 var midParser = require('../middlewares/parser');
@@ -27,6 +28,7 @@ module.exports = function (next, app) {
     app.use('/', express.static(path.join(configs.root, 'public')));
     app.use('/static', express.static(path.join(configs.webroot, 'static')));
     app.use('/node_modules', express.static(path.join(configs.webroot, 'node_modules')));
+    app.use(favicon(path.join(configs.webroot, 'favicon.ico')));
 
     // 前置中间件
     app.use(expressResAPI(app, {
