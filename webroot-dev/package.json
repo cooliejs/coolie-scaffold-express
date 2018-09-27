@@ -1,6 +1,6 @@
 {
   "name": "webroot",
   "dependencies": {
-    "coolie.js": "2.3.1"
+    "coolie.js": "2.4.1"
   }
 }
