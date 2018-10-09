@@ -48,7 +48,6 @@ module.exports = function (next, app) {
     app.use(midLocals.$configs());
     app.use(midLocals.$url());
     app.use(midLocals.$ua());
-    app.use(midLocals.$seo());
 
     // 接口
     app.use('/api/example/', require('../controllers/api/example'));

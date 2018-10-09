@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <!--
- - 文件描述
+ - 首页
  - @author ydr.me
  - @create 2016-01-13 16:59
+ - @update 2018年10月09日18:38:37
  -->
 <html lang="zh-Hans">
 <head>
     {{#include '/modules/meta.html'}}
-    <title>index.html</title>
+    <title>首页</title>
 </head>
 <body ontouchstart="">
 
-<h1>express 工程样板</h1>
-<h2>{{Date.now()}}</h2>
-<h3>{{pkg.name}}@{{pkg.version}}</h3>
+<h1>{{pkg.name}}@{{pkg.version}}</h1>
+<h2>{{pkg.description}}</h2>
+<h3><a href="{{=pkg.homepage}}">{{pkg.homepage}}</a></h3>
 
 <script coolie src="/node_modules/coolie.js/coolie.js"
         data-config="/static/js/coolie-config.js"

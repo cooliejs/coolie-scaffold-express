@@ -2,7 +2,7 @@
   "name": "coolie-scaffold-express",
   "version": "1.0.0",
   "private": true,
-  "description": "基于 coolie 前端工程解决方案的 express 项目脚手架（https://coolie.ydr.me）",
+  "description": "基于 coolie 前端工程解决方案的 express 项目脚手架",
   "scripts": {
     "start": "node ./clis/start.js",
     "release": "coolie build -d webroot-dev && git add webroot-pro && git commit -am release && git push",
@@ -25,7 +25,7 @@
     "url": "https://ydr.me"
   },
   "contributors": [],
-  "homepage": "https://github.com/express-template",
+  "homepage": "https://coolie.ydr.me",
   "repository": {
     "type": "git",
     "url": "https://github.com/express-template"
