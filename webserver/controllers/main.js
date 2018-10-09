@@ -17,7 +17,6 @@ var router = new Router();
 // 首页
 router.get('/', function (req, res, next) {
     res.render('index.html', {
-        title: '首页',
         pkg: pkg
     });
 });
