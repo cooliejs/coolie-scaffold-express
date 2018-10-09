@@ -42,10 +42,10 @@ exports.serverError = function serverError(err, req, res, next) {
         '<meta charset="UTF-8">' +
         '<style>' +
         'body {' +
-        'background: #b54646;' +
-        'color: #fff;' +
-        'font-size: 16px;' +
-        'line-height: 1.6;' +
+        /****/'background: #b54646;' +
+        /****/'color: #fff;' +
+        /****/'font-size: 16px;' +
+        /****/'line-height: 1.6;' +
         '}' +
         '</style>' +
         '<h1>Error</h1>' +
