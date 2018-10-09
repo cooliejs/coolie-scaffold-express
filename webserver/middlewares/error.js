@@ -7,6 +7,8 @@
 
 'use strict';
 
+var string = require('blear.utils.string');
+
 var reAPI = /^\/api\//;
 
 // 解析 404
@@ -35,7 +37,22 @@ exports.serverError = function serverError(err, req, res, next) {
     }
 
     res.status(500);
-    res.send(errMsg);
+    res.send(
+        '<!doctype html>' +
+        '<meta charset="UTF-8">' +
+        '<style>' +
+        'body {' +
+        'background: #b54646;' +
+        'color: #fff;' +
+        'font-size: 16px;' +
+        'line-height: 1.6;' +
+        '}' +
+        '</style>' +
+        '<h1>Error</h1>' +
+        '<pre>' + string.escapeHTML(errMsg) + '</pre>' +
+        '<pre>' + err.stack + '</pre>' +
+        ''
+    );
 };
 
 
