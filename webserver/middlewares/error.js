@@ -40,6 +40,7 @@ exports.serverError = function serverError(err, req, res, next) {
     res.send(
         '<!doctype html>' +
         '<meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1.0,minimum-scale=1.0,minimal-ui">' +
         '<style>' +
         'body {' +
         /****/'background: #b54646;' +
