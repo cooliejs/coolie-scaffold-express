@@ -54,3 +54,11 @@ exports.$ua = function () {
 };
 
 
+exports.$seo = function () {
+    return function (req, res, next) {
+        res.locals.title = '';
+        res.locals.keywords = '';
+        res.locals.description = '';
+        next();
+    };
+};
