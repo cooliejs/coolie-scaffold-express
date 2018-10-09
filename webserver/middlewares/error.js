@@ -51,7 +51,6 @@ exports.serverError = function serverError(err, req, res, next) {
         '</style>' +
         '<h1>Error</h1>' +
         '<pre>' + string.escapeHTML(errMsg) + '</pre>' +
-        '<pre>' + err.stack + '</pre>' +
         ''
     );
 };
