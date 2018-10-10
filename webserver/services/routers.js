@@ -9,6 +9,7 @@
 
 var log = require('blear.node.log');
 var expressResAPI = require('blear.express.res-api');
+var expressResRender = require('blear.express.res-render');
 var expressHttpMethodOverride = require('blear.express.http-method-override');
 var path = require('path');
 var express = require('express');
@@ -33,6 +34,9 @@ module.exports = function (next, app) {
     // 前置中间件
     app.use(expressResAPI(app, {
         rewriteError: false
+    }));
+    app.use(expressResRender(app, {
+        debug: configs.env !== 'production' ? 'debug': null
     }));
     app.use(expressHttpMethodOverride());
     app.use(midParser.parseFullURL());
