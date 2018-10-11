@@ -27,6 +27,7 @@ module.exports = function (next, app) {
 
     // 静态文件
     app.use('/', express.static(path.join(configs.root, 'public')));
+    app.use('/assets', express.static(path.join(configs.webroot, 'assets')));
     app.use('/static', express.static(path.join(configs.webroot, 'static')));
     app.use('/node_modules', express.static(path.join(configs.webroot, 'node_modules')));
     app.use(favicon(path.join(configs.webroot, 'favicon.ico')));
