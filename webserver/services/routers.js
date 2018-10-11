@@ -57,7 +57,7 @@ module.exports = function (next, app) {
     app.use('/api/example/', require('../controllers/api/example'));
 
     // 页面
-    app.use('/', require('../controllers/main'));
+    app.use('/', require('../controllers/render/main'));
 
     // 后置中间件
     app.use(log.expressMiddleware());
