@@ -15,14 +15,29 @@ var reAPI = /^\/api\//;
 exports.clientError = function clientError(req, res, next) {
     var isAPI = reAPI.test(req.originalUrl);
     var errCode = 404;
-    var errMsg = '当前页面不存在哦';
+    var errMsg = 'Page Not Found';
 
     if (isAPI) {
         return res.api(errCode, errMsg);
     }
 
-    res.status(404);
-    res.send(errMsg);
+    res.status(errCode);
+    res.send(
+        '<!doctype html>' +
+        '<meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1.0,minimum-scale=1.0,minimal-ui">' +
+        '<style>' +
+        'body {' +
+        /****/'background: #b54646;' +
+        /****/'color: #fff;' +
+        /****/'font-size: 16px;' +
+        /****/'line-height: 1.6;' +
+        '}' +
+        '</style>' +
+        '<h1>' + errCode + ' Error</h1>' +
+        '<pre>' + string.escapeHTML(errMsg) + '</pre>' +
+        ''
+    );
 };
 
 
@@ -49,7 +64,7 @@ exports.serverError = function serverError(err, req, res, next) {
         /****/'line-height: 1.6;' +
         '}' +
         '</style>' +
-        '<h1>Error</h1>' +
+        '<h1>' + errCode + ' Error</h1>' +
         '<pre>' + string.escapeHTML(errMsg) + '</pre>' +
         ''
     );
