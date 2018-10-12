@@ -1,5 +1,5 @@
 {
-  "name": "express-template",
+  "name": "coolie-scaffold-express",
   "cwd": "./",
   "script": "./app.js",
   "error_file": "./logs/err.log",
