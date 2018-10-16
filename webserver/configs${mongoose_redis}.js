@@ -51,7 +51,8 @@ module.exports = {
         session: pkg.name + ':session:'
     },
     cookie: {
-        secret: 'express-template',
+        // cookie 密钥，必要时修改
+        secret: 'gU5*G^6h',
         // 1d
         maxAge: 24 * 60 * 60 * 1000,
         sessionName: 's' + port
