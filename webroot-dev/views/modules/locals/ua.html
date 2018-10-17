@@ -1,0 +1,11 @@
+<script>
+    (function () {
+        var ua = {
+            isMobile: '{{$ua.isMobile ? 1 : 0}}',
+            isWeixin: '{{$ua.isWeixin ? 1 : 0}}'
+        };
+        ua.isMobile = ua.isMobile === '1';
+        ua.isWeixin = ua.isWeixin === '1';
+        LOCALS.ua = ua;
+    }());
+</script>

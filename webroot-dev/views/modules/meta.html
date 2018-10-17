@@ -14,9 +14,6 @@
     window.LOCALS = {};
 </script>
 
-<!--fundebug-->
-<script coolieignore
-        src="{{=$configs.fundebug.url}}"
-        apikey="{{=$configs.fundebug.key}}"
-        releasestage="{{$configs.env}}"
-        appversion="{{$configs.pkg.version}}"></script>
+{{#include './locals/ua.html'}}
+{{#include './locals/url.html'}}
+
