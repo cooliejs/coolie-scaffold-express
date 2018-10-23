@@ -47,7 +47,8 @@ exports.parseSession = function (redis) {
 // 解析完整 URL
 exports.parseFullURL = function () {
     return function (req, res, next) {
-        req.$fullURL = req.protocol + '://' + req.headers.host + req.originalUrl;
+        var protocol = req.headers['x-forwarded-scheme'] || req.protocol;
+        req.$fullURL = protocol + '://' + req.headers.host + req.originalUrl;
         next();
     };
 };
