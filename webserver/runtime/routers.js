@@ -49,7 +49,6 @@ module.exports = function (next, app) {
     app.use(midParser.parseSession(redis));
     app.use(midParser.parseApplicationJSON());
     app.use(midParser.parseApplicationXwwwFormUrlencoded());
-    app.use(midParser.parseRedis(redis));
     app.use(midSafe.addUACompatibleHeader());
     app.use(midSafe.addFrameOptionsHeader());
     app.use(midLocals.$configs());

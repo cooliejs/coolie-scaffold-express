@@ -114,16 +114,3 @@ exports.parseMultipartFormDataOfFile = function (fileName) {
 };
 
 
-// 附加 req.redis res.redis
-exports.parseRedis = function (redis) {
-    return function (req, res, next) {
-        if (redis) {
-            req.redis = res.redis = redis;
-        }
-
-        next();
-    };
-};
-
-
-
