@@ -7,14 +7,9 @@
 
 'use strict';
 
-var Router = require('express').Router;
 
-var router = new Router();
-
-// 获取 xxxx
-router.get('/', function (req, res, next) {
-    res.api(Math.random());
-});
-
-
-module.exports = router;
+exports.random = function (app) {
+    return function (req, res, next) {
+        res.api(Math.random());
+    };
+};
