@@ -55,10 +55,10 @@ module.exports = function (next, app) {
     app.use(midLocals.$ua());
 
     // 接口
-    app.use('/api/example', require('../controllers/api/example'));
+    app.use('/api/example', require('../controllers/interface/example'));
 
     // 页面
-    app.use('/', require('../controllers/render/main'));
+    app.use('/', require('../controllers/renderer/main'));
 
     // 后置中间件
     app.use(log.expressMiddleware());
