@@ -9,29 +9,22 @@
 
 var mongoose = require('mongoose');
 var fun = require('blear.utils.function');
-var console = require('blear.node.console');
 
 var configs = require('../configs');
 
-module.exports = function (next) {
+module.exports = function (next, app) {
     var complete = fun.once(function (err) {
         if (err) {
-            err.mongodbURL = configs.mongodb;
+            return next(err, app);
         }
 
-        next(err);
+        require('../models/example');
+        next(err, app);
     });
 
-    mongoose.connect(configs.mongodb);
-    mongoose.connection.on('connected', function () {
-        console.log('connected mongodb success');
-        complete();
-    });
-    mongoose.connection.on('error', complete);
-    mongoose.connection.on('disconnected', function () {
-        var err = new Error('disconnected mongodb');
-        complete(err);
-    });
+    mongoose.connect(configs.mongodb, {
+        useNewUrlParser: true
+    }, complete);
 };
 
 
