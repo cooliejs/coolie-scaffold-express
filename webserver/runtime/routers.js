@@ -20,6 +20,8 @@ var midParser = require('../middlewares/parser');
 var midSafe = require('../middlewares/safe');
 var midError = require('../middlewares/error');
 var midLocals = require('../middlewares/locals');
+var routerInterface = require('../routers/interface');
+var routerRenderer = require('../routers/renderer');
 
 var ctrlInterfaceExample = require('../controllers/interface/example');
 var ctrlRendererMain = require('../controllers/renderer/main');
@@ -56,10 +58,10 @@ module.exports = function (next, app) {
     app.use(midLocals.$ua());
 
     // 接口
-    app.get('/api/example', ctrlInterfaceExample.random(app));
+    routerInterface(app);
 
     // 页面
-    app.get('/', ctrlRendererMain.main(app));
+    routerRenderer(app);
 
     // 后置中间件
     app.use(log.expressMiddleware());

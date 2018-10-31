@@ -9,7 +9,7 @@
 
 var pkg = require('../../../package.json');
 
-exports.main = function (app) {
+exports.getHome = function (app) {
     return function (req, res, next) {
         res.render('index.html', {
             pkg: pkg
