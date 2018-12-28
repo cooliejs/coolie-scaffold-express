@@ -78,7 +78,7 @@ exports.parseIP = function () {
 // 解析访问信息
 exports.parseAccess = function () {
     return function (req, res, next) {
-        console.infoWithTime(req.$ip, req.method, req.$fullURL, req.headers);
+        console.infoWithTime(req.$ip, req.method, req.$fullURL);
         next();
     };
 };
