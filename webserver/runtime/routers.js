@@ -23,9 +23,6 @@ var midLocals = require('../middlewares/locals');
 var routerInterface = require('../routers/interface');
 var routerRenderer = require('../routers/renderer');
 
-var ctrlInterfaceExample = require('../controllers/interface/example');
-var ctrlRendererMain = require('../controllers/renderer/main');
-
 module.exports = function (next, app) {
     var redis = app.redis;
 
@@ -34,7 +31,10 @@ module.exports = function (next, app) {
     app.use('/assets', express.static(path.join(configs.webroot, 'assets')));
     app.use('/static', express.static(path.join(configs.webroot, 'static')));
     app.use('/node_modules', express.static(path.join(configs.webroot, 'node_modules')));
-    app.use(favicon(path.join(configs.webroot, 'favicon.ico')));
+
+    if (configs.env === 'development') {
+        app.use(favicon(path.join(configs.webroot, 'favicon.ico')));
+    }
 
     // 前置中间件
     app.use(expressResAPI(app, {
