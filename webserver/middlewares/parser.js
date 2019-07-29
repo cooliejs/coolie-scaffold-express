@@ -102,6 +102,14 @@ exports.parseApplicationXwwwFormUrlencoded = function () {
 };
 
 
+// 解析 text/xml
+exports.parseTextXML = function () {
+    return bodyParser.raw({
+        type: 'text/xml'
+    });
+};
+
+
 // 解析 multipart/form-data text
 exports.parseMultipartFormDataOfText = function () {
     return upload.none();
